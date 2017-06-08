@@ -70,6 +70,84 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
             <img src="https://media.giphy.com/media/ywDAO6ONmOSVG/giphy.gif" />
           </section>
           <section>
+            <p>JSON Response from the API</p>
+            <pre>
+              <code data-trim data-noescape>
+  {
+    "listing": {
+      "features": {
+        "bedrooms": {
+          "value": 3
+        }
+      }
+    }
+  }
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Task: Display the value of bedrooms in the UI</p>
+          </section>
+          <section>
+            <p>Possibly null or undefined</p>
+            <ul>
+              <li>listing</li>
+              <li>listing.features</li>
+              <li>listing.features.bedrooms</li>
+            </ul>
+          </section>
+          <section>
+            <p>Rules</p>
+            <ul>
+              <li>If bedrooms.value does not exist, return zero</li>
+            </ul>
+          </section>
+          <section>
+            <p>Define getBedrooms as a function</p>
+            <pre>
+              <code data-trim data-noescape>
+const getBedrooms = data => {
+  const bedrooms = data.listing && data.listing.features
+                  && data.listing.features.bedrooms;
+  if (bedrooms) {
+      return bedrooms.value;
+  }
+  return 0;
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>We have to <strong>null-check</strong> every step of the way</p>
+            <img src="https://media.giphy.com/media/OpLwqEAMNarAs/giphy.gif" width="100%" />
+          </section>
+          <section>
+            <img src="http://rea.tech/wp-content/uploads/run-time-error.png" />
+          </section>
+          <section>
+            <p>This is totally fine</p>
+          </section>
+          <section>
+            <p>Looking at this from another perspective</p>
+            <img src="https://media.giphy.com/media/8WLBQsjVNh3wc/giphy.gif" height="100%" />
+          </section>
+          <section>
+            <p>We have no easy way to operate on "optional" values</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Option Types</h2>
+            <img src="https://media.giphy.com/media/xT8qBrnnu0HfsfEKZi/giphy.gif" />
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Problem II</h2>
+            <p>Parsing Data that might fail</p>
+            <img src="https://media.giphy.com/media/EimNpKJpihLY4/giphy.gif" />
+          </section>
+          <section>
 
           </section>
         </section>
