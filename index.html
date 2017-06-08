@@ -319,9 +319,183 @@ const getBedrooms = data =>
             <img src="https://media.giphy.com/media/EimNpKJpihLY4/giphy.gif" />
           </section>
           <section>
-
+            <p>Task: Parse a String into a Javascript Object From localStorage</p>
+          </section>
+          <section>
+            <pre>
+              <code data-trim data-noescape>
+                  getUserFromLocalStorage: String -> Object
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Rules</p>
+            <ul>
+              <li>If <i>user</i> could not be constructed, return a “Invalid or Corrupted User Data” message</li>
+            </ul>
+          </section>
+          <section>
+            <p>Define getUserFromLocalStorage as a function</p>
+            <pre>
+              <code data-trim data-noescape>
+const getUserFromLocalStorage = keyName => {
+  const str = localStorage.getItem(keyName);
+  return JSON.parse(str);
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Define a function that uses getUserFromLocalStorage</p>
+            <pre>
+              <code data-trim data-noescape>
+const doSomethingWithUserData = () => {
+  const cage = getUserFromLocalStorage('cage');
+  // do wonderful things
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <img src="https://cdn-images-1.medium.com/max/800/1*BthSspPWQZ-x3iyacaStVQ.png" />
+          </section>
+          <section>
+            <p>Refactor getUserFromLocalStorage to use try catch</p>
+            <pre>
+              <code data-trim data-noescape>
+const getUserFromLocalStorage = keyName => {
+  const str = localStorage.getItem(keyName);
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return "Invalid or Corrupted User Data";
+  }
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <img src="https://media.giphy.com/media/8acGIeFnqLA7S/giphy.gif" />
+          </section>
+          <section>
+            <p>&#x1f44e;&#x1f3fb; Forces <i>doSomethingWithUserData</i> to handle null values</p>
+          </section>
+          <section>
+            <p>&#x1f44e;&#x1f3fb; <i>doSomethingWithUserData</i> does not get to decide how to handle errors</p>
           </section>
         </section>
+        <section>
+          <section>
+            <h2>Either Types</h2>
+            <img src="https://media.giphy.com/media/11aaYfPUsdWD5K/giphy.gif" />
+          </section>
+          <section>
+            <img src="https://cdn-images-1.medium.com/max/1600/1*-P7jI0cancdc4qKxUbEMGw.png" />
+          </section>
+          <section>
+            <p>Either:</p>
+            <ul>
+              <li>Left</li>
+              <li>Right</li>
+            </ul>
+          </section>
+          <section>
+            <p>Differences between Option and Either</p>
+            <table>
+              <tr>
+                <th>Option</th>
+                <th>Either</th>
+              </tr>
+              <tr>
+                <td>
+                  You care whether a value <strong>does or does not</strong> exist
+                </td>
+                <td>
+                  You care enough to pass contextual information
+                </td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <p>Either Type Definition</p>
+            <pre>
+              <code data-trim data-noescape>
+const Left = x => ({
+  map: f => Left(x),
+  fold: (ifLeft, ifRight) => ifLeft(x)
+});
+
+const Right = x => ({
+  map: f => Right(f(x)),
+  fold: (ifLeft, ifRight) => ifRight(x)
+});
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Differences in what they return</p>
+            <table>
+              <tr>
+                <th></th>
+                <th>Left</th>
+                <th>Right</th>
+              </tr>
+              <tr>
+                <td>map</td>
+                <td>Left(x)</td>
+                <td>Right(f(x))</td>
+              </tr>
+              <tr>
+                <td>fold</td>
+                <td>ifLeft(x)</td>
+                <td>ifRight(x)</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+
+            <p>Refactor getUserFromLocalStorage to use Either Types</p>
+            <pre>
+              <code data-trim data-noescape>
+const getUserFromLocalStorage = keyName => {
+  const str = localStorage.getItem(keyName);
+  try {
+    return Right(JSON.parse(str));
+  } catch (e) {
+    return Left("Invalid or Corrupted User Data");
+  }
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <img src="https://media.giphy.com/media/YYD3fLEOdcOv6/giphy.gif" width="100%"/>
+          </section>
+          <section>
+
+            <p>Refactor doSomethingWithUserData to deal with Either as return type</p>
+            <pre>
+              <code data-trim data-noescape>
+const transformCage = () => { /* ... */ };
+const handleError = e => "Invalid or Corrupted User Data";
+const handleSuccess = data => "Success";
+
+const doSomethingWithUserData = () =>
+  getUserFromLocalStorage('nickCage')
+    .map(transformCage)
+    .fold(handleError, handleSuccess);
+              </code>
+            </pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Conclusion</h2>
+          </section>
+        </section>
+          <section>
+            <h2>Questions</h2>
+          </section>
       </div>
     </div>
 
