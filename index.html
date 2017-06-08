@@ -140,6 +140,177 @@ const getBedrooms = data => {
             <h2>Option Types</h2>
             <img src="https://media.giphy.com/media/xT8qBrnnu0HfsfEKZi/giphy.gif" />
           </section>
+          <section>
+            <img src="http://rea.tech/wp-content/uploads/OptionImage.png" />
+          </section>
+          <section>
+            <p>Option:</p>
+            <ul>
+              <li>Some - non-null value</li>
+              <li>None - null or undefined</li>
+            </ul>
+          </section>
+          <section>
+            <p>Option Type definition</p>
+            <pre>
+              <code data-trim data-noescape>
+const Option = x =>
+  (x === undefined || x === null) ? None : Some(x);
+
+const Some = x => ({
+  map: f => Some(f(x)),
+  flatMap: f => f(x),
+  fold: (ifEmpty, f) => f(x)
+});
+
+const None = {
+  map: f => None,
+  flatMap: f => None,
+  fold: (ifEmpty, f) => ifEmpty()
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Differences in what they return</p>
+            <table>
+              <tr>
+                <th></th>
+                <th>map</th>
+                <th>flatMap</th>
+                <th>fold</th>
+              </tr>
+              <tr>
+                <td>Some(x)</td>
+                <td>
+                  Some(f(x))
+                </td>
+                <td>
+                  f(x)
+                </td>
+                <td>
+                  f(x)
+                </td>
+              </tr>
+              <tr>
+                <td>None</td>
+                <td>Itself</td>
+                <td>Itself</td>
+                <td>ifEmpty()</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <p>Differences in type of <i>f</i> passed as argument</p>
+            <table>
+              <tr>
+                <th></th>
+                <th>map</th>
+                <th>flatMap</th>
+                <th>fold</th>
+              </tr>
+              <tr>
+                <td><i>f</i></td>
+                <td>
+                  <pre>U => V</pre>
+                </td>
+                <td>
+                  <pre>U => Option&lt;V&gt;</pre>
+                </td>
+                <td>
+                  <pre>U => V</pre>
+                </td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <p>Let's talk about <i>fold</i></p>
+            <img src="https://media.giphy.com/media/3oEduMk57PTBv1R66I/giphy.gif" />
+          </section>
+          <section>
+
+            <p><i>fold</i> to retrieve values</p>
+            <pre>
+              <code data-trim data-noescape>
+Option(null).fold(() => 'Empty!', x => x);
+// 'Empty!'
+
+Option('Something').fold(() => 'Empty!', x => x);
+// 'Something'
+              </code>
+            </pre>
+          </section>
+          <section>
+
+            <p>Refactor getBedrooms to use Option Types</p>
+            <pre>
+              <code data-trim data-noescape>
+const getBedrooms = data =>
+    Option(data.listing)
+        .flatMap(listing => Option(listing.features))
+        .flatMap(features => Option(features.bedrooms))
+        .map(bedrooms => bedrooms.value)
+        .fold(() => 0, v => v);
+              </code>
+            </pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <img src="https://media.giphy.com/media/wOkwx1hcmu3lK/giphy.gif" width="100%" />
+          </section>
+          <section>
+            <p>Pros & Cons of Option Types in JS</p>
+          </section>
+          <section>
+            <p> &#x1f44d;&#x1f3fb; Signals the fact that a value could be <strong>null.</strong> </p>
+          </section>
+          <section>
+            <p> &#x1f44d;&#x1f3fb; Makes it easy to <strong>chain</strong> functions and not worry about null checking at all. </p>
+          </section>
+          <section>
+            <p>Btw,  we've just used a Functor and a Monad ... sort of</p>
+            <img src="https://media.giphy.com/media/3o6EhWeei7wsp2jc1G/giphy.gif" />
+          </section>
+          <section>
+            <p>&#x1f44e;&#x1f3fb; Verbose</p>
+          </section>
+          <section>
+            <p>&#x1f44e;&#x1f3fb; Cannot fully harness the power of Option types without <strong>typing</strong> our values</p>
+          </section>
+          <section>
+            <svg class="flow-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 498.39 252.33">
+              <title>Flow logo</title>
+              <g class="flow-logo-mark">
+              <path fill="#ffca20" opacity=".7" d="M224.74 109l-84.11-84.1h84.11z"></path>
+              <path fill="#ffca20" opacity=".7" d="M81.72 0h47.68l36.44 36.43H81.72z"></path>
+              <path fill="#ffcf39" opacity=".9" d="M84.45 84.12L.34 0h101.13v84.11zm73.89 84.1l84.11 84.11h-84.11z"></path>
+              <path fill="#ffe490" opacity=".7" d="M101.47 168.23l-84.1-84.12h84.11v84.11zm90.58-42.57L125 58.57h67.08zm7.84 118.84l-76.28-76.27h76.28z"></path>
+              <path fill="#fcbc7c" opacity=".9" d="M101.47 67l-67-67h67z"></path>
+              <path fill="#f9a040" opacity=".8" d="M123.95 168.22l84.11 84.11h-84.11z"></path>
+              <path fill="#f9a040" opacity=".7" d="M209.08 201.8l-84-84h84z"></path>
+              <path fill="#ffcf39" opacity=".9" d="M125 58.57l83.09 83.09H125z"></path>
+              <path fill="#ffc737" opacity=".7" d="M101.47 252L0 150.51h101.47V252z"></path>
+              </g>
+              <path class="flow-logo-text" fill="#eee" d="M311.18 108.38h19.55v4.78h-19.55v50.77h-5.55v-50.77h-11.12v-4.78h11.11v-9.33q0-7.78 4.33-12.28t12.22-4.5q6 0 9 3l-1.56 4.44a10.21 10.21 0 0 0-7-2.44q-5.44 0-8.44 3.17t-3 9.17zm31.11 42.1q0 5.11 1.61 7.22t5.39 2.11a15.55 15.55 0 0 0 7.33-1.56l-.78 5.33a17.29 17.29 0 0 1-7.33 1.44q-6 0-8.89-3.39T336.73 151V82.83h5.55zM405.78 115q7.05 7.72 7.06 21.17t-7.05 21.16q-7.07 7.67-19.38 7.67T367 157.32q-7-7.72-7-21.16t7-21.16q7.05-7.7 19.41-7.7t19.37 7.7zm-34.71 3.5q-5.55 6.44-5.55 17.66t5.55 17.66q5.55 6.44 15.33 6.44t15.33-6.44q5.55-6.44 5.55-17.66t-5.55-17.66q-5.56-6.5-15.34-6.5t-15.34 6.46zm127.33-10.09l-19 55.55h-5.58l-17.55-48.55-17.11 48.55h-5.56l-19-55.55h6.22l15.55 49 17.33-49h5.58l17.2 49 15.69-49z"></path>
+            </svg>
+          </section>
+          <section>
+            <p>&#x1f44e;&#x1f3fb; Additional layer of abstraction</p>
+          </section>
+          <section>
+            <ul>
+              <li>Lodash .get</li>
+              <li>Lenses</li>
+              <li>Roll your own</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Category Theory</h2>
+          </section>
+          <section>
+            <p> &#x1f44d;&#x1f3fb; Works nicely with other ADTs </p>
+          </section>
         </section>
         <section>
           <section>
