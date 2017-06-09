@@ -487,6 +487,71 @@ const doSomethingWithUserData = () =>
               </code>
             </pre>
           </section>
+          <section>
+            <p> &#x1f44d;&#x1f3fb; Returns an Either with an error rather than <strong>throwing it</strong>.</p>
+          </section>
+          <section>
+            <p> &#x1f44d;&#x1f3fb; We can <strong>extend</strong> our return types to provide even more information.</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>There is still a <strong>catch...</strong></h2>
+          </section>
+          <section>
+            <p>Our <i>Right</i> could still return a <strong>null</strong></p>
+          </section>
+          <section>
+            <pre>
+              <code data-trim data-noescape>
+Either&lt;string, ?Object&gt;
+              </code>
+            </pre>
+          </section>
+          <section>
+            <pre>
+              <code data-trim data-noescape>
+Either&lt;string, Option&gt;Object&gt;&gt;
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Refactor getUserFromLocalStorage to return Either with an Option Type</p>
+            <pre>
+              <code data-trim data-noescape>
+const getUserFromLocalStorage = keyName => {
+  const str = localStorage.getItem(keyName);
+  try {
+    return Right(Option(JSON.parse(str)));
+  } catch (e) {
+    return Left("Invalid or Corrupted User Data");
+  }
+};
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Refactor doSomethingWithUserData to deal with Either and Option</p>
+            <pre>
+              <code data-trim data-noescape>
+const transformCage = () => { /* ... */ };
+const handleError = e => "failed to parse Cage";
+const handleSuccess = data => "Success";
+const ifEmpty = () => "Cage does not exist!";
+
+const doSomethingWithUserData = () =>
+  getUserFromLocalStorage('nickCage')
+    .fold(handleError,
+      data =>
+          data.map(transformCage)
+              .fold(
+                ifEmpty,
+                handleSuccess
+              )
+      );
+              </code>
+            </pre>
+          </section>
         </section>
         <section>
           <section>
