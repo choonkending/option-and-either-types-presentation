@@ -364,8 +364,8 @@ const doSomethingWithUserData = () => {
             <pre>
               <code data-trim data-noescape>
 const getUserFromLocalStorage = keyName => {
-  const str = localStorage.getItem(keyName);
   try {
+    const str = localStorage.getItem(keyName);
     return JSON.parse(str);
   } catch (e) {
     return "Invalid or Corrupted User Data";
@@ -458,8 +458,8 @@ const Right = x => ({
             <pre>
               <code data-trim data-noescape>
 const getUserFromLocalStorage = keyName => {
-  const str = localStorage.getItem(keyName);
   try {
+    const str = localStorage.getItem(keyName);
     return Right(JSON.parse(str));
   } catch (e) {
     return Left("Invalid or Corrupted User Data");
@@ -497,6 +497,7 @@ const doSomethingWithUserData = () =>
         <section>
           <section>
             <h2>There is still a <strong>catch...</strong></h2>
+            <img src="https://media.giphy.com/media/a5viI92PAF89q/giphy.gif" />
           </section>
           <section>
             <p>Our <i>Right</i> could still return a <strong>null</strong></p>
@@ -504,14 +505,14 @@ const doSomethingWithUserData = () =>
           <section>
             <pre>
               <code data-trim data-noescape>
-Either&lt;string, ?Object&gt;
+Either&lt;string,Object&gt;
               </code>
             </pre>
           </section>
           <section>
             <pre>
               <code data-trim data-noescape>
-Either&lt;string, Option&gt;Object&gt;&gt;
+Either&lt;string, Option&lt;Object&gt;&gt;
               </code>
             </pre>
           </section>
@@ -520,8 +521,8 @@ Either&lt;string, Option&gt;Object&gt;&gt;
             <pre>
               <code data-trim data-noescape>
 const getUserFromLocalStorage = keyName => {
-  const str = localStorage.getItem(keyName);
   try {
+    const str = localStorage.getItem(keyName);
     return Right(Option(JSON.parse(str)));
   } catch (e) {
     return Left("Invalid or Corrupted User Data");
@@ -557,6 +558,20 @@ const doSomethingWithUserData = () =>
           <section>
             <h2>Conclusion</h2>
           </section>
+          <section>
+            <p>Option & Either types are useful!</p>
+          </section>
+          <section>
+            <p>Knowledge is transferrable</p>
+          </section>
+        </section>
+        <section>
+          <h3>References</h3>
+          <ul>
+            <li><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/">Professor Frisby’s Mostly Adequate Guide to Functional Programming</a></li>
+            <li><a href="https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/">Category Theory for Programmers: The Preface</a></li>
+            <li><a href="https://medium.com/@dtinth/what-is-a-functor-dcf510b098b6">What is a Functor?</a></li>
+          </ul>
         </section>
           <section>
             <h2>Questions</h2>
