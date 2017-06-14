@@ -132,7 +132,7 @@ const getBedrooms = data => {
             <img src="https://media.giphy.com/media/8WLBQsjVNh3wc/giphy.gif" height="100%" />
           </section>
           <section>
-            <p>We have no easy way to operate on "optional" values</p>
+            <p>We have no easy way to operate on values that may or may not be present</p>
           </section>
         </section>
         <section>
@@ -254,6 +254,31 @@ const getBedrooms = data =>
               </code>
             </pre>
           </section>
+          <section>
+            <p>Comparison</p>
+            <pre>
+              <code data-trim data-noescape>
+const getBedrooms = data => {
+  const bedrooms = data.listing && data.listing.features
+                  && data.listing.features.bedrooms;
+  if (bedrooms) {
+      return bedrooms.value;
+  }
+  return 0;
+};
+              </code>
+            </pre>
+            <pre>
+              <code data-trim data-noescape>
+const getBedrooms = data =>
+    Option(data.listing)
+        .flatMap(listing => Option(listing.features))
+        .flatMap(features => Option(features.bedrooms))
+        .map(bedrooms => bedrooms.value)
+        .fold(() => 0, v => v);
+              </code>
+            </pre>
+          </section>
         </section>
         <section>
           <section>
@@ -306,9 +331,6 @@ const getBedrooms = data =>
             </ul>
           </section>
           <section>
-            <h2>Category Theory</h2>
-          </section>
-          <section>
             <p> &#x1f44d;&#x1f3fb; Works nicely with other ADTs </p>
           </section>
         </section>
@@ -355,6 +377,7 @@ const doSomethingWithUserData = () => {
 };
               </code>
             </pre>
+            <img src="https://media.giphy.com/media/NdCQXPD0D4ugo/giphy.gif" />
           </section>
           <section>
             <img src="https://cdn-images-1.medium.com/max/800/1*BthSspPWQZ-x3iyacaStVQ.png" />
@@ -481,9 +504,32 @@ const handleError = e => "Invalid or Corrupted User Data";
 const handleSuccess = data => "Success";
 
 const doSomethingWithUserData = () =>
-  getUserFromLocalStorage('nickCage')
+  getUserFromLocalStorage('cage')
     .map(transformCage)
     .fold(handleError, handleSuccess);
+              </code>
+            </pre>
+          </section>
+          <section>
+            <p>Comparison</p>
+            <pre>
+              <code data-trim data-noescape>
+const transformCage = () => { /* ... */ };
+const handleError = e => "Invalid or Corrupted User Data";
+const handleSuccess = data => "Success";
+
+const doSomethingWithUserData = () =>
+  getUserFromLocalStorage('cage')
+    .map(transformCage)
+    .fold(handleError, handleSuccess);
+              </code>
+            </pre>
+            <pre>
+              <code data-trim data-noescape>
+const doSomethingWithUserData = () => {
+  const cage = getUserFromLocalStorage('cage');
+  // do wonderful things
+};
               </code>
             </pre>
           </section>
@@ -541,7 +587,7 @@ const handleSuccess = data => "Success";
 const ifEmpty = () => "Cage does not exist!";
 
 const doSomethingWithUserData = () =>
-  getUserFromLocalStorage('nickCage')
+  getUserFromLocalStorage('cage')
     .fold(handleError,
       data =>
           data.map(transformCage)
@@ -556,20 +602,28 @@ const doSomethingWithUserData = () =>
         </section>
         <section>
           <section>
-            <h2>Conclusion</h2>
+            <h2>Thoughts</h2>
           </section>
           <section>
-            <p>Option & Either types are useful!</p>
+            <img src="https://media.giphy.com/media/xT77XWum9yH7zNkFW0/giphy.gif" />
+          </section>
+          <section>
+            <ul>
+              <li>Option Types - handle values which may or may not exist</li>
+              <li>Either Types - handling errors</li>
+            </ul>
           </section>
           <section>
             <p>Knowledge is transferrable</p>
+          </section>
+          <section>
+            <p>Consider using them!</p>
           </section>
         </section>
         <section>
           <h3>References</h3>
           <ul>
             <li><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/">Professor Frisby’s Mostly Adequate Guide to Functional Programming</a></li>
-            <li><a href="https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/">Category Theory for Programmers: The Preface</a></li>
             <li><a href="https://medium.com/@dtinth/what-is-a-functor-dcf510b098b6">What is a Functor?</a></li>
           </ul>
         </section>
