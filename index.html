@@ -331,6 +331,9 @@ const getBedrooms = data =>
             </ul>
           </section>
           <section>
+            <p>They are not just another abstraction!</p>
+          </section>
+          <section>
             <p> &#x1f44d;&#x1f3fb; Works nicely with other ADTs </p>
           </section>
         </section>
@@ -456,7 +459,7 @@ const Right = x => ({
             </pre>
           </section>
           <section>
-            <p>Differences in what they return</p>
+            <p>What they return</p>
             <table>
               <tr>
                 <th></th>
@@ -485,7 +488,7 @@ const getUserFromLocalStorage = keyName => {
     const str = localStorage.getItem(keyName);
     return Right(JSON.parse(str));
   } catch (e) {
-    return Left("Invalid or Corrupted User Data");
+    return Left(e);
   }
 };
               </code>
@@ -551,14 +554,14 @@ const doSomethingWithUserData = () => {
           <section>
             <pre>
               <code data-trim data-noescape>
-Either&lt;string,Object&gt;
+Either&lt;Error,Object&gt;
               </code>
             </pre>
           </section>
           <section>
             <pre>
               <code data-trim data-noescape>
-Either&lt;string, Option&lt;Object&gt;&gt;
+Either&lt;Error, Option&lt;Object&gt;&gt;
               </code>
             </pre>
           </section>
@@ -571,7 +574,7 @@ const getUserFromLocalStorage = keyName => {
     const str = localStorage.getItem(keyName);
     return Right(Option(JSON.parse(str)));
   } catch (e) {
-    return Left("Invalid or Corrupted User Data");
+    return Left(e);
   }
 };
               </code>
